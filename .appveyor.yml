@@ -24,4 +24,6 @@ install:
 build_script: py -3 -m cibuildwheel --output-dir wheelhouse
 
 on_failure:
-  - type c:\projects\palace\CMakeOutput.txt
+  - echo %APPVEYOR_BUILD_FOLDER%
+  - cmake c:\projects\palace\
+  - dir c:\projects\palace\
