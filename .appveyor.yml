@@ -23,5 +23,5 @@ install:
 
 build_script: py -3 -m cibuildwheel --output-dir wheelhouse
 
-on-failure:
-  - type c:\projects\palace\CMakeOutputs.txt
+on_failure:
+  - type c:\projects\palace\CMakeOutput.txt
