@@ -6,5 +6,5 @@ get_target_property(include_dirs Alure2::alure2 INTERFACE_INCLUDE_DIRECTORIES)
 message("alure2_include_dirs=${include_dirs}")
 
 get_target_property(link_libraries Alure2::alure2 INTERFACE_LINK_LIBRARIES)
-get_target_property(libalure2 Alure2::alure2 IMPORTED_IMPLIB)
+get_target_property(libalure2 Alure2::alure2 LOCATION_RELEASE)
 message("alure2_extra_objects=${link_libraries};${libalure2}")
