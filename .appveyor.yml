@@ -17,8 +17,9 @@ install:
   - 7z x -o%APPVEYOR_BUILD_FOLDER%\.. openal-soft-1.20.1-bin.zip
   - set OPENALDIR=%APPVEYOR_BUILD_FOLDER%\..\openal-soft-1.20.1-bin
   - git clone https://github.com/kcat/alure %APPVEYOR_BUILD_FOLDER%\..\alure
-  - cmake -A x64 -S %APPVEYOR_BUILD_FOLDER%\..\alure -B %APPVEYOR_BUILD_FOLDER%\..\alure\build
-  - cmake --build %APPVEYOR_BUILD_FOLDER%\..\alure\build --config Release --target install
+  - cmake -A x64 -S %APPVEYOR_BUILD_FOLDER%\..\alure -B %APPVEYOR_BUILD_FOLDER%\..\alure\build 
+  - cmake --build %APPVEYOR_BUILD_FOLDER%\..\alure\build --config Release --target install > c:\projects\cmake_alure_log.txt
+  - type c:\projects\cmake_alure_log.txt
   - py -3 -m pip install cibuildwheel
 
 build_script: py -3 -m cibuildwheel --output-dir wheelhouse
