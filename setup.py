@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with palace.  If not, see <https://www.gnu.org/licenses/>.
 
+import sys
 import re
 from distutils import log
 from distutils.command.clean import clean
@@ -27,7 +28,7 @@ from operator import methodcaller
 from os import environ, unlink
 from os.path import dirname, join
 from platform import system
-from subprocess import DEVNULL, PIPE, run
+from subprocess import DEVNULL, PIPE, run, CalledProcessError
 
 from Cython.Build import cythonize
 from setuptools import setup, Extension
@@ -57,8 +58,17 @@ class BuildAlure2Ext(build_ext):
         mkpath(self.build_temp)
         copy_file(join(dirname(__file__), 'CMakeLists.txt'),
                   self.build_temp)
-        cmake = run(['cmake', '.'], check=True, stdout=DEVNULL, stderr=PIPE,
-                    cwd=self.build_temp, universal_newlines=True)
+        try:
+            cmake = run(['cmake', '.'], check=True, stdout=DEVNULL, stderr=PIPE,
+                        cwd=self.build_temp, universal_newlines=True)
+        except CalledProcessError as e:
+            print(f"\n\ncmake: Error occurred!\n\n"
+                  f"(Standard output)\n"
+                  f"{e.stdout}\n\n"
+                  f"(Standard error)\n"
+                  f"{e.stderr}\n")
+            sys.exit(1)
+        
         for key, value in map(methodcaller('groups'),
                               re.finditer(r'^alure2_(\w*)=(.*)$',
                                           cmake.stderr, re.MULTILINE)):
