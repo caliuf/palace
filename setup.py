@@ -59,16 +59,18 @@ class BuildAlure2Ext(build_ext):
         copy_file(join(dirname(__file__), 'CMakeLists.txt'),
                   self.build_temp)
         try:
-            cmake = run(['cmake', '.'], check=True, stdout=DEVNULL, stderr=PIPE,
+            cmake = run(['cmake', '.'], 
+                        check=True, stdout=DEVNULL, stderr=PIPE,
                         cwd=self.build_temp, universal_newlines=True)
         except CalledProcessError as e:
             print(f"\n\ncmake: Error occurred!\n\n"
                   f"(Standard output)\n"
                   f"{e.stdout}\n\n"
                   f"(Standard error)\n"
-                  f"{e.stderr}\n")
+                  f"{e.stderr}\n",
+                  file=sys.stderr)
             sys.exit(1)
-        
+
         for key, value in map(methodcaller('groups'),
                               re.finditer(r'^alure2_(\w*)=(.*)$',
                                           cmake.stderr, re.MULTILINE)):
