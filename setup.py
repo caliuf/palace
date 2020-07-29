@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # setup script
-# Copyright (C) 2019, 2020  Nguyễn Gia Phong
+# Copyright (C) 2019, 2020  Nguyễn Gia Phong, Francesco Caliumi
 #
 # This file is part of palace.
 #
@@ -59,7 +59,7 @@ class BuildAlure2Ext(build_ext):
         copy_file(join(dirname(__file__), 'CMakeLists.txt'),
                   self.build_temp)
         try:
-            cmake = run(['cmake', '.'], 
+            cmake = run(['cmake', '.'],
                         check=True, stdout=DEVNULL, stderr=PIPE,
                         cwd=self.build_temp, universal_newlines=True)
         except CalledProcessError as e:
