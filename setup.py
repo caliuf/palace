@@ -65,7 +65,7 @@ class BuildAlure2Ext(build_ext):
                         cwd=self.build_temp, universal_newlines=True)
         except CalledProcessError as e:
             print(e.stderr, file=sys.stderr)
-            raise
+            raise e from None
 
         for key, value in map(methodcaller('groups'),
                               re.finditer(r'^alure2_(\w*)=(.*)$',
