@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # setup script
-# Copyright (C) 2019, 2020  Nguyễn Gia Phong, Francesco Caliumi
+# Copyright (C) 2019, 2020  Nguyễn Gia Phong
+# Copyright (C) 2020  Francesco Caliumi
 #
 # This file is part of palace.
 #
@@ -17,7 +18,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with palace.  If not, see <https://www.gnu.org/licenses/>.
 
-import sys
 import re
 from distutils import log
 from distutils.command.clean import clean
@@ -63,13 +63,8 @@ class BuildAlure2Ext(build_ext):
                         check=True, stdout=DEVNULL, stderr=PIPE,
                         cwd=self.build_temp, universal_newlines=True)
         except CalledProcessError as e:
-            print(f"\n\ncmake: Error occurred!\n\n"
-                  f"(Standard output)\n"
-                  f"{e.stdout}\n\n"
-                  f"(Standard error)\n"
-                  f"{e.stderr}\n",
-                  file=sys.stderr)
-            sys.exit(1)
+            print(e.stderr, file=sys.stderr)
+            raise
 
         for key, value in map(methodcaller('groups'),
                               re.finditer(r'^alure2_(\w*)=(.*)$',
